@@ -11,6 +11,7 @@ import { redirect } from "next/navigation";
 import { siteConfig } from "@/site.config";
 import { checkPassword, endAdminSession, isAdmin, startAdminSession } from "@/lib/admin-auth";
 import { getAdminClient, IMAGE_BUCKET } from "@/lib/supabase-admin";
+import { HERO_FIELDS } from "@/lib/hero-fields";
 
 export type ActionState = { ok?: boolean; message?: string };
 
@@ -90,6 +91,31 @@ export async function saveItem(_prev: ActionState, formData: FormData): Promise<
   revalidatePath("/");
   revalidatePath("/admin");
   return { ok: true, message: id ? "수정했습니다." : "추가했습니다." };
+}
+
+/* ---------- 히어로 글자 저장 ---------- */
+
+export async function saveHeroText(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  if (!(await isAdmin())) return { message: "로그인이 필요합니다. 새로고침 후 다시 로그인하세요." };
+
+  const supabase = getAdminClient();
+  if (!supabase) return { message: "Supabase가 연결되지 않았습니다. .env.local 을 확인하세요." };
+
+  const key = String(formData.get("key") ?? "");
+  const value = String(formData.get("value") ?? "").trim();
+
+  if (!HERO_FIELDS.some((f) => f.key === key)) return { message: "알 수 없는 항목입니다." };
+
+  // 비워서 저장하면 → 저장된 글자를 지우고 기본 글자(site.config.ts)로 돌아감
+  const { error } = value
+    ? await supabase.from("site_texts").upsert({ key, value, updated_at: new Date().toISOString() })
+    : await supabase.from("site_texts").delete().eq("key", key);
+
+  if (error) return { message: `저장 실패: ${error.message}` };
+
+  revalidatePath("/");
+  revalidatePath("/admin");
+  return { ok: true, message: value ? "저장했습니다." : "기본 글자로 되돌렸습니다." };
 }
 
 /* ---------- 카드 삭제 ---------- */

@@ -1,6 +1,7 @@
-import { sampleItems } from "@/site.config";
+import { sampleItems, siteConfig } from "@/site.config";
 import { getPublicClient } from "@/lib/supabase";
 import type { Item } from "@/lib/types";
+import type { HeroTexts } from "@/lib/hero-fields";
 
 /**
  * 특정 섹션의 카드 목록을 가져옵니다.
@@ -25,4 +26,32 @@ export async function getItems(section: string): Promise<Item[]> {
     return samples;
   }
   return (data ?? []) as Item[];
+}
+
+/**
+ * 히어로(첫 화면) 글자를 가져옵니다.
+ * - 관리자에서 저장한 글자가 있으면 그것을, 없으면 site.config.ts 의 기본 글자를 보여줌
+ */
+export async function getHeroTexts(): Promise<HeroTexts> {
+  const { hero } = siteConfig;
+  const texts: HeroTexts = {
+    "hero.eyebrow": hero.eyebrow,
+    "hero.title": hero.title,
+    "hero.description": hero.description,
+    "hero.primaryCta": hero.primaryCta.label,
+    "hero.secondaryCta": hero.secondaryCta.label,
+  };
+
+  const supabase = getPublicClient();
+  if (!supabase) return texts;
+
+  const { data, error } = await supabase.from("site_texts").select("key, value").like("key", "hero.%");
+  if (error) {
+    console.error("[getHeroTexts] Supabase 읽기 실패:", error.message);
+    return texts;
+  }
+  for (const row of data ?? []) {
+    if (row.key in texts && row.value) texts[row.key as keyof HeroTexts] = row.value;
+  }
+  return texts;
 }
