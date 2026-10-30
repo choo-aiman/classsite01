@@ -10,8 +10,8 @@ import type { Item } from "@/lib/types";
 
 export const siteConfig = {
   /* 브라우저 탭 제목과 검색 결과에 보이는 정보 */
-  name: "My Studio",
-  title: "My Studio — 나의 첫 웹사이트",
+  name: "추하핫",
+  title: "추하핫 — 나의 첫 웹사이트",
   description: "바이브 코딩으로 만든 나의 웹사이트입니다.",
 
   /* 상단 메뉴 (href 의 #이름 은 아래 섹션의 id 와 같아야 해당 위치로 이동) */
@@ -31,16 +31,31 @@ export const siteConfig = {
       "이 문장을 바꿔 나를 소개해 보세요. site.config.ts 파일에서 글자만 바꾸면 여기가 바뀝니다.",
     primaryCta: { label: "더 알아보기", href: "#features" },
     secondaryCta: { label: "연락하기", href: "#contact" },
+    thirdCta: { label: "유튜브", href: "https://www.youtube.com" }, // 새 탭에서 열림
+    /* 잡지 표지 느낌의 장식 글자 (히어로 전용) */
+    magazine: {
+      topMenu: ["STYLE", "BEAUTY", "LIFESTYLE", "YOU"],
+      issue: ["VOL 1", "AUTUMN", "2026"],
+      signature: "Hello",
+      sideWords: ["SIMPLE", "LOOKS", "BIGGER", "DREAMS"],
+      footerWords: ["REAL STYLE", "REAL VIBES", "ALWAYS YOU"],
+      /* 큰 제목의 첫 번째 target 글자에 마우스를 올리면 replacement(작은 글자)로 바뀌는 장난.
+         마우스가 그 글자 칸을 벗어나면 바로 원래 글자로 돌아옵니다. 줄마다 한 칸씩 적으세요. */
+      hoverSwap: { target: "가", replacement: ["네 맞아요", "저는"] },
+      worldClocks: [
+        { label: "뉴욕", timeZone: "America/New_York" },
+        { label: "파리", timeZone: "Europe/Paris" },
+        { label: "도쿄", timeZone: "Asia/Tokyo" },
+      ],
+      footerNote: "추하핫 2026",
+    },
   },
 
   /* 소개 섹션 */
   about: {
     eyebrow: "About",
-    title: "소개",
-    paragraphs: [
-      "여기에 나 또는 우리 팀, 가게, 프로젝트에 대한 소개를 적습니다.",
-      "두 번째 문단도 필요하면 이렇게 줄을 추가하면 됩니다.",
-    ],
+    title: "고구마가 몸에 좋습니다.",
+    paragraphs: ["다만 너무 많이 드시면 방귀가 냄새날 수도 있습니다"],
   },
 
   /* 기능(항목) 섹션의 제목 — 카드 목록 자체는 관리자 페이지(/admin)에서 관리 */
@@ -64,7 +79,7 @@ export const siteConfig = {
 
   /* 맨 아래(푸터) */
   footer: {
-    copyright: "© 2026 My Studio. All rights reserved.",
+    copyright: "© 2026 추하핫. All rights reserved.",
   },
 
   /* 관리자 페이지에서 관리할 섹션 목록.

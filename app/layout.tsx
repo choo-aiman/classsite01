@@ -13,6 +13,15 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="ko" className="h-full">
+      <head>
+        {/* 히어로(잡지 표지) 전용 폰트: 굵은 명조(Playfair Display, Noto Serif KR) + 필기체(Great Vibes) */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Noto+Serif+KR:wght@400;500;700;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+        />
+      </head>
       <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );

@@ -14,10 +14,15 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-brand bg-brand">
       <Container className="flex h-16 items-center justify-between">
-        <Link href="/" className="text-lg font-semibold tracking-tight">
-          {siteConfig.name}
+        <Link href="/" className="font-serif text-xl tracking-tight text-background">
+          {/* 글자마다 시간차를 두고 춤추듯 움직임 (animation 은 globals.css 의 dance) */}
+          {[...siteConfig.name].map((ch, i) => (
+            <span key={i} className="dance-letter" style={{ animationDelay: `${i * 0.15}s` }}>
+              {ch === " " ? " " : ch}
+            </span>
+          ))}
         </Link>
 
         {/* 데스크톱 메뉴 */}
@@ -26,12 +31,12 @@ export function Navbar() {
             <a
               key={item.href}
               href={item.href}
-              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              className="text-sm text-background/80 transition-colors hover:text-background"
             >
               {item.label}
             </a>
           ))}
-          <Button asChild size="sm">
+          <Button asChild size="sm" className="bg-background text-foreground hover:bg-background/90">
             <a href={siteConfig.secretButton.href} target="_blank" rel="noopener noreferrer">
               {siteConfig.secretButton.label}
             </a>
@@ -41,7 +46,7 @@ export function Navbar() {
         {/* 모바일 메뉴 버튼 */}
         <button
           type="button"
-          className="inline-flex size-10 items-center justify-center rounded-full md:hidden"
+          className="inline-flex size-10 items-center justify-center rounded-full text-background md:hidden"
           aria-label={open ? "메뉴 닫기" : "메뉴 열기"}
           onClick={() => setOpen((v) => !v)}
         >
@@ -50,14 +55,14 @@ export function Navbar() {
       </Container>
 
       {/* 모바일 메뉴 펼침 */}
-      <nav className={cn("border-t border-border/60 md:hidden", open ? "block" : "hidden")}>
+      <nav className={cn("border-t border-background/20 md:hidden", open ? "block" : "hidden")}>
         <Container className="flex flex-col py-2">
           {siteConfig.nav.map((item) => (
             <a
               key={item.href}
               href={item.href}
               onClick={() => setOpen(false)}
-              className="py-3 text-base text-muted-foreground hover:text-foreground"
+              className="py-3 text-base text-background/80 hover:text-background"
             >
               {item.label}
             </a>
@@ -67,7 +72,7 @@ export function Navbar() {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setOpen(false)}
-            className="py-3 text-base font-medium text-foreground"
+            className="py-3 text-base font-medium text-background"
           >
             {siteConfig.secretButton.label}
           </a>

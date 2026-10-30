@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { siteConfig } from "@/site.config";
 import { Container } from "@/components/layout/container";
 import { SectionHeader } from "@/components/layout/section-header";
@@ -17,8 +19,16 @@ export function About() {
             ))}
           </div>
         </div>
-        {/* 이미지 자리: public 폴더에 사진을 넣고 <img src="/사진이름.jpg" /> 로 바꿔 보세요 */}
-        <div className="aspect-[4/3] w-full rounded-xl border bg-background" />
+        {/* 이미지: 칸을 가득 채웁니다(cover). 그림을 바꾸려면 public/about.webp 파일을 교체하세요 */}
+        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border bg-background">
+          <Image
+            src="/about.webp"
+            alt="소개 이미지"
+            fill
+            sizes="(min-width: 768px) 50vw, 100vw"
+            className="object-cover object-[center_40%]"
+          />
+        </div>
       </Container>
     </section>
   );

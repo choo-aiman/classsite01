@@ -21,37 +21,53 @@
    색은 #9a0002 같은 HEX 값으로 바꿔도 됩니다.
    ========================================================================== */
 :root {
-  --radius: 0.75rem;
+  color-scheme: dark; /* 항상 어두운 화면 (Claude 느낌의 차콜 배경) */
+  --radius: 1rem;
 
-  --background: #ffffff;
-  --foreground: #111111;
+  --background: #1a1a1a;
+  --foreground: #f2f0eb;
 
-  --card: #ffffff;
-  --card-foreground: #111111;
-  --popover: #ffffff;
-  --popover-foreground: #111111;
+  --card: #232323;
+  --card-foreground: #f2f0eb;
+  --popover: #232323;
+  --popover-foreground: #f2f0eb;
 
-  --primary: #111111;
-  --primary-foreground: #ffffff;
+  --primary: #f0eeea;
+  --primary-foreground: #1a1a1a;
 
-  --secondary: #f4f4f5;
-  --secondary-foreground: #111111;
+  --secondary: #2a2a2a;
+  --secondary-foreground: #f2f0eb;
 
-  --muted: #f4f4f5;
-  --muted-foreground: #6b6b6b;
+  --muted: #232323;
+  --muted-foreground: #9a9a96;
 
-  --accent: #f4f4f5;
-  --accent-foreground: #111111;
+  --accent: #2e2e2e;
+  --accent-foreground: #f2f0eb;
 
-  --destructive: #dc2626;
+  --destructive: #ef4444;
 
-  --border: #e5e5e5;
-  --input: #e5e5e5;
-  --ring: #a3a3a3;
+  --brand: #d97757; /* 따뜻한 코랄 오렌지 포인트 색 */
+
+  /* 푸터(종이 콜라주) 전용 색 */
+  --paper: #ecd1ae; /* 가운데 종이 */
+  --paper-ink: #2a2118; /* 종이 위 글자색 */
+  --cream: #f1e7d6; /* 푸터 바닥 / 작은 메모지 */
+  --terracotta: #c4632f;
+  --clay: #8a5a44;
+  --cocoa: #4a3b35;
+  --blush: #dfa98a;
+  --sage: #7d8068;
+
+  --border: #333333;
+  --input: #333333;
+  --ring: #d97757;
 
   /* 폰트 */
   --font-body: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --font-display: var(--font-body); /* 제목용 폰트를 따로 쓰고 싶으면 여기만 바꾸기 */
+  --font-serif: Georgia, "Noto Serif KR", "Times New Roman", serif; /* 로고(사이트 이름)용 세리프체 */
+  --font-magazine-stack: "Playfair Display", "Noto Serif KR", Georgia, serif; /* 잡지 표지 제목용 */
+  --font-script-stack: "Great Vibes", "Snell Roundhand", cursive; /* 필기체 서명용 */
 }
 
 /* 다크 모드용 값 (html 태그에 class="dark" 를 붙이면 적용) */
@@ -93,6 +109,15 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
+  --color-brand: var(--brand);
+  --color-paper: var(--paper);
+  --color-paper-ink: var(--paper-ink);
+  --color-cream: var(--cream);
+  --color-terracotta: var(--terracotta);
+  --color-clay: var(--clay);
+  --color-cocoa: var(--cocoa);
+  --color-blush: var(--blush);
+  --color-sage: var(--sage);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -102,6 +127,9 @@
   --radius-xl: calc(var(--radius) + 4px);
   --font-sans: var(--font-body);
   --font-display: var(--font-display);
+  --font-serif: var(--font-serif);
+  --font-magazine: var(--font-magazine-stack);
+  --font-script: var(--font-script-stack);
 }
 
 @layer base {
@@ -119,5 +147,39 @@
   h2,
   h3 {
     font-family: var(--font-display);
+  }
+}
+
+/* 종이 질감: 거친 잡음 무늬를 살짝 덮어 종이 느낌을 냅니다 (푸터에서 사용) */
+.paper-texture {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.25 0 0 0 0 0.18 0 0 0 0 0.1 0 0 0 0.4 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* 로고 글자 춤추기: 글자마다 시간차(animation-delay)를 줘서 물결처럼 들썩입니다 (상단 메뉴에서 사용) */
+@keyframes dance {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translateY(-5px) rotate(-10deg) scale(1.1);
+  }
+  50% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  75% {
+    transform: translateY(-3px) rotate(10deg) scale(1.1);
+  }
+}
+
+.dance-letter {
+  display: inline-block;
+  animation: dance 1.4s ease-in-out infinite;
+}
+
+/* 움직임을 줄이도록 설정한 사람에게는 애니메이션을 끕니다 */
+@media (prefers-reduced-motion: reduce) {
+  .dance-letter {
+    animation: none;
   }
 }
